@@ -25,17 +25,18 @@ https://tools.ietf.org/html/rfc5011
 
 During a key rollover, the approach is:
 
-1. Generate a new KSK. Add this to the Yeti root zone.
+1. Generate a new KSK. A copy is delivered to all distribution
+   masters, who add this to the Yeti root zone.
 
 2. Wait 30 days.
 
-3. Set the "revoked" flag on the old KSK. Replace the old KSK in the
-   Yeti root zone with this version. Sign ZSK with the old and the new
-   KSK.
+3. Set the "revoked" flag on the old KSK at each distribution master.
+   Replace the old KSK in the Yeti root zone with this version. Sign
+   ZSK with the old and the new KSK.
 
 4. Wait 30 days.
 
-5. Remove the old KSK.
+5. Remove the old KSK at each distribution master.
 
 The Yeti KSK rollover communication plan is followed.
 
