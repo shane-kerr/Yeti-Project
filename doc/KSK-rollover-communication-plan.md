@@ -32,16 +32,9 @@ approach.
 Communications Plan
 ===================
 
-1. Maintain a web page with all past and present KSK, including the
-   dates when they were active. Include dates of planned future KSK
-   rollovers. Also include a history of changes to the web page
-   itself.
-
-2. Announce any changes to the web page to the yeti-discuss list.
-
-3. During a roll, announce the following changes to the yeti-discuss
-   and yeti-operators mailing lists. Also put them in a visible place
-   on the front page of http://yeti-dns.org
+* During a roll, announce the following changes to the yeti-discuss
+  and yeti-operators mailing lists. Also put them in a visible place
+  on the front page of https://yeti-dns.org
 
    1. 14 days before a KSK roll starts
 
@@ -57,7 +50,7 @@ Communications Plan
 
    7. Immediately after the old key is removed
 
-4. BII staff will be monitoring the roll and be available during the
-   process. Any issues should be mailed to the yeti-discuss
-   (preferred) or yeti-operators (for issues only appropriate for
-   operators) list.
+* BII staff will be monitoring the roll and be available during the
+  process. Any issues should be mailed to the yeti-discuss
+  (preferred) or yeti-operators (for issues only appropriate for
+  operators) list.
