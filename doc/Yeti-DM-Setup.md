@@ -95,42 +95,102 @@ It is important that the root zone produced by the Yeti DM is always
 consistent. In order to do this, we use something like a 2-phase
 commit procedure.
 
-A change to the list of Yeti name servers gets put into a PENDING
-directory on any one of the Yeti DM. This directory contains:
+Summary of Process
+------------------
+One of the Yeti DM starts the process, setting a time for when it
+completes. Both of the other Yeti DM confirm the change. If both have
+confirmed the change by the deadline, then the update is made.
+Otherwise the change fails, and humans figure out what went wrong.
 
-* the new list of Yeti name servers
-* the time when the new list will be valid from
-* a file for each Yeti DM which has confirmed the new list
+Details of Process
+------------------
+There are three phases to a change. Start, Acknowledge, and Commit.
 
-Each DM will periodically check this PENDING directory. If the
-directory is present, then the DM will download the new information,
-add a file documenting that it has received it.
+1. Start Phase
+   One of the Yeti DM begins a change to the list of Yeti name
+   servers.  It creates a file into a PENDING directory:
 
-Sometime after the scheduled time arrives and before the next Yeti
-root zone is generated, each DM will check if the other DM have both
-received the new list of Yeti name servers. If they have, then the
-list of Yeti name servers will be replaced with the new one. If they
-have NOT, then an alarm is raised, and humans debug the failure.
+   * The file is named "yeti-root.${DM}" (DM is "bii", "tisf", or
+     "wide").
+   * The first line of the file is the time when the new list will be
+     used.
+   * Each additional line of the file is information about one Yeti
+     root server, with the name of the server and the IPv6 address.
 
-In pseudocode, something like this:
+   A sample file:
+
+```
+        # 2015-09-01T08:35:22 (scheduled time list is used)
+        bii.dns-lab.net 2001::1
+        yeti.tisf.net 2001::2
+        yeti-dns.wide.jp 2001::3
+```
+
+TODO: use IPv6 documentation addresses
+
+   This file is sent to each of the other Yeti servers using rsync.
+
+   It is possible that two Yeti DM execute the Start phase the process
+   independently. If the list of Yeti root servers is the same, this
+   is not a problem. If the list of Yeti root servers is different,
+   then this an error, and the update fails. Humans must intervene and
+   correct the error. The _earliest_ time in all files will be used
+   for the scheduled time.
+
+2. Acknowledge Phase
+   Each of the Yeti DM confirms that it has seen the new list of Yeti
+   root servers, and reports this to the other Yeti DM.
+
+   The report is done by creating a file with the same Yeti root
+   servers. So if BII discovers "yeti-root.wide" or "yeti-root.tisf"
+   then it will create "yeti-root.bii".
+
+   This file is sent to each of the other Yeti servers using rsync.
+
+3. Commit Phase
+   After the scheduled time, each server has one of three possible
+   cases:
+
+   1. There is a file for each Yeti DM and they all contain an
+      identical list of Yeti root servers. This is expected. We use
+      this new list of Yeti root servers.
+
+   2. There are no files for any Yeti DM. The server has not received
+      any notification of the new version. Continue to use the old
+      version.
+
+   3. There is a new file for some Yeti DM, but not for all. This is
+      an error case. *DO NOT* produce any more root zones at all. (It
+      is possible that one of the other Yeti DM has all three, and
+      will start to use the new list. We cannot know. The only safe
+      action is to stop generating root zones.)
+
+Pseudocode
+----------
+In pseudocode, synchronization may look something like this:
 
 ```
 sync_yeti_roots:
     loop forever:
-        try rsync with PENDING directory with each other DM
-
-        if PENDING list of roots != my list of roots:
-            add a DM file for me in the PENDING directory
-
-        if current time > PENDING scheduled time:
-            if the DM file for each DM is present:
-                copy PENDING list of roots to my list of roots
+        if time() > SCHEDULED_TIME:
+            if all_dm_root_list_present_and_identical():
+                install_new_root_list()
             else:
-                PANIC (notify a human being)
+                PANIC   # notify a human being
+
+        else:
+            if any_root_list_present():
+                if new_root_list_identical():
+                    add_my_root_list_file()
+                    send_my_root_list_file_to_dm()
+                else:
+                    PANIC    # notify a human being
 
         sleep a bit
 ```
 
+Other Notes
+-----------
 We choose 48 hours as the current time to adopt a new list of Yeti
 name servers. This allows plenty of time for for DM administrators to
 fix issues.
