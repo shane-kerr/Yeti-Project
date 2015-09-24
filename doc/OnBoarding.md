@@ -58,7 +58,7 @@ From the coordinators' side, to setup we need the following information:
   * Responsible persons' PGP key (registered at pgp.mit.edu is preferable).
 
 If any operator want to quit for some reason, you should to send a mail to 
-the operator 7 days in advance.
+the coordinators 7 days in advance.
 
 ### Considerations in running multiple Yeti root servers by one operator
 
@@ -70,14 +70,14 @@ root system Verisign runs the A and J root servers. The only concerns are:
    of Yeti root servers (ideally 25 operator are from different countries and
    a various continents).
 
-There is an agreement for Yeti operator who would like to run **Additional root
-server**.  A Yeti operator can apply additional root server only when:
+There is an agreement for a Yeti operator who would like to run **Additional
+root server**.  A Yeti operator can apply additional root server only when:
 
 * The number of Yeti root servers is less than the maximum number of roots in
   the Yeti testbed (currently 25),
 * They meet the basic technical requirements for the additional server, and
-* They provide the information of additional server, IPv6 address(AFXR), domain
-  name, the software and version.
+* They provide the information of additional server, just like the initial
+  server they operate.
 
 Coordinators reserve the right to reclaim the **Additional root server** in
 case no room for new Yeti root operator (given that there is a limit).
