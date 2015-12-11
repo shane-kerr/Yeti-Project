@@ -15,17 +15,20 @@ experiments complete and new ideas are proposed.
 
 Timeline
 --------
-2015-12-28 to 2016-01-18  Multi-ZSK
-2016-01-25 to 2016-02-04  KSK Roll
-                          Root Server Renumbering
-                          ICANN KSK Roll Simulation
-                          RFC 5011 Roll-Back
-                          Rename Servers to .YETI
-                          Priming Truncation
-                          ZSK 2048 Bits
-                          KSK ECDSA Roll
-                          Frequent ZSK Roll
-                          TCP-only Root
+
+| Start Date | End Date   | Experiment
+|------------|------------|------------
+| 2015-12-28 | 2016-01-18 | Multi-ZSK
+| 2016-01-25 | 2016-02-04 | KSK Roll
+|            |            | Root Server Renumbering
+|            |            | ICANN KSK Roll Simulation
+|            |            | RFC 5011 Roll-Back
+|            |            | Rename Servers to .YETI
+|            |            | Priming Truncation
+|            |            | ZSK 2048 Bits
+|            |            | KSK ECDSA Roll
+|            |            | Frequent ZSK Roll
+|            |            | TCP-only Root
                           
 
 Experiments
