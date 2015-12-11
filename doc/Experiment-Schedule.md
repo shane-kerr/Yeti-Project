@@ -1,0 +1,170 @@
+Introduction
+------------
+This document lays out the current proposed timeline of upcoming
+experiments. It contains a brief summary of each as well as links to
+further information.
+
+Process
+-------
+The planning of experiments is organized by consensus on the Yeti
+discuss mailing list. The Yeti coordinators will make the final
+decision on what experiments will run.
+
+The list of experiments is meant to be updated regularly, as
+experiments complete and new ideas are proposed.
+
+Timeline
+--------
+2015-12-28 to 2016-01-18  Multi-ZSK
+2016-01-25 to 2016-02-04  KSK Roll
+                          Root Server Renumbering
+                          ICANN KSK Roll Simulation
+                          RFC 5011 Roll-Back
+                          Rename Servers to .YETI
+                          Priming Truncation
+                          ZSK 2048 Bits
+                          KSK ECDSA Roll
+                          Frequent ZSK Roll
+                          TCP-only Root
+                          
+
+Experiments
+-----------
+
+## Multi-ZSK
+
+The Multi-ZSK experiment is designed to test operating the Yeti root
+using more than a single ZSK. The goal is to have each distribution
+master (DM) have a separate ZSK, signed by a single KSK. This will
+allow DM to operate independently, each maintaining their own key
+secret material.
+
+The preliminary, lab-research has been completed. This experiment does
+not require any specific changes on the part of the Yeti root
+operators or the Yeti resolver operators.
+
+http://lists.yeti-dns.org/pipermail/discuss/2015-October/000269.html
+
+Details need to be finished before the experiment starts, such as the
+exact measurements, a detailed timeline, and the format of the final
+report.
+
+## KSK Roll
+
+The KSK Roll experiment is designed to verify that a KSK roll of the
+Yeti root works properly. Unlike the IANA root we do not expect a
+large number of unmanaged resolvers, and if any resolver fails then
+this is useful information rather than a serious service outage.
+
+The process will probably look something like the proposed Yeti Root
+KSK rollover procedure:
+
+https://github.com/shane-kerr/Yeti-Project/blob/ksk-roll-plan/doc/KSK-rollover.md
+
+It will also exercise the KSK rollover communication plan:
+
+https://github.com/shane-kerr/Yeti-Project/blob/yeti-ksk-communication-plan/doc/KSK-rollover-communication-plan.md
+
+Details need to be finished before the experiment starts, such as the
+exact measurements, a detailed timeline, and the format of the final
+report.
+
+We may wish to include some resolver-side signaling about trust
+anchor configuration such as that defined in:
+
+https://tools.ietf.org/html/draft-wkumari-dnsop-trust-management-01
+
+## Root Server Renumbering
+
+One of the goals of the Yeti project is to investigate the impact of
+renumbering root name servers. We should devise an experiment to
+measure various renumbering schemes and the impact. For example, we
+could ask a set of root operators to listen on multiple addresses,
+which would allow the coordinators to update the published set of root
+server addresses.
+
+This experiment could also be used to test the impact of resolvers
+that use automated ways to update their root hint file as well as
+those who do not.
+
+## ICANN KSK Roll Simulation
+
+ICANN has a team of experts working to define the process for rolling
+the IANA root zone KSK. The proposal is not yet final, but when it is
+the Yeti project should try to run a simulation of the process. There
+will be many differences, but it seems important to try to duplicate
+the IANA process as closely as is practical and observe the results.
+
+This experiment depends on the ICANN KSK roll team publishing a final
+recommendation. Once that happens, designing and running an experiment
+seems a reasonable priority.
+
+## RFC 5011 Roll-Back
+
+RFC 5011 has a 30-day hold-down timer for newly introduced trust
+anchors. We should test what happens if this is actually needed, by
+simulating a bogus added KSK.
+
+## Rename Servers to .YETI
+
+In support of the ICANN RSSAC Caucus work on naming of root servers,
+Yeti can conduct an experiment where the Yeti root servers are put
+into the Yeti root zone directly, rather than each with a separate
+name from a separate space. This may be considered a modification of
+the root zone, so may be out of scope. Discussion is needed.
+
+## Priming Truncation
+
+We can measure the worst-possible case for priming truncation by
+truncating all priming query answers. This requires either custom
+software on all participating Yeti root servers, either modified
+server software or perhaps a proxy.
+
+This experiment can provide input into the expected outcome of work
+that expands the priming answers, such as increasing the ZSK key
+length.
+
+## ZSK 2048 Bits
+
+RSA 1024 is no longer recommended for cryptography. At some point the
+ZSK should be made longer. Common practice is to adopt 2048 bits keys.
+
+Yeti should change to RSA 2048 for ZSK and observe the results. If the
+response size is greater than 1280 bytes it is likely that increased
+TCP will be observed from priming queries.
+
+## KSK ECDSA Roll
+
+One possible way to reduce packet sizes is to change to an ecliptic
+curve for signing. ECDSA is a standard way of doing that in DNSSEC.
+While in principle this can be done separately for the KSK and the
+ZSK, the RIPE NCC has done research recently and discovered that some
+resolvers require that both KSK and ZSK use the same algorithm. Even
+if this is fixed in latest versions of the code, old versions will be
+in place for some time.
+
+https://labs.ripe.net/Members/anandb/dnssec-algorithm-roll-over
+
+This means that an algorithm roll also involves a KSK roll.
+Performing an algorithm roll at the root is an interesting challenge.
+
+## Frequent ZSK Roll
+
+We want to see the limits of how frequently a root ZSK can roll. This
+will be relatively safe after the Multi-ZSK setup is finished. This
+has a lower bound based on TTL, but the TTL can be modified for such
+an experiment. A ZSK roll might be something that can be done daily or
+even at a faster rate.
+
+## TCP-only Root
+
+Similar to truncating priming queries, we can actually use the same
+technique to truncate _all_ answers from root servers. This should
+give some insight into the usefulness of TCP-only DNS in general.
+
+Completed Experiments
+---------------------
+Completed experiments will be listed here, along with a link to a
+paper or other document describing the results.
+
+No experiments have been completed yet.
