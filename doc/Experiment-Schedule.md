@@ -34,7 +34,7 @@ Timeline
 Experiments
 -----------
 
-## MZSK: Multi-ZSK
+### MZSK: Multi-ZSK
 
 The Multi-ZSK experiment is designed to test operating the Yeti root
 using more than a single ZSK. The goal is to have each distribution
@@ -52,7 +52,7 @@ Details need to be finished before the experiment starts, such as the
 exact measurements, a detailed timeline, and the format of the final
 report.
 
-## KROLL: KSK Roll
+### KROLL: KSK Roll
 
 The KSK Roll experiment is designed to verify that a KSK roll of the
 Yeti root works properly. Unlike the IANA root we do not expect a
@@ -77,7 +77,7 @@ anchor configuration such as that defined in:
 
 https://tools.ietf.org/html/draft-wkumari-dnsop-trust-management-01
 
-## KROLL: ICANN KSK Roll Simulation
+### KROLL: ICANN KSK Roll Simulation
 
 ICANN has a team of experts working to define the process for rolling
 the IANA root zone KSK. The proposal is not yet final, but when it is
@@ -89,7 +89,7 @@ This experiment depends on the ICANN KSK roll team publishing a final
 recommendation. Once that happens, designing and running an experiment
 seems a reasonable priority.
 
-## RENUM: Root Server Renumbering
+### RENUM: Root Server Renumbering
 
 One of the goals of the Yeti project is to investigate the impact of
 renumbering root name servers. We should devise an experiment to
@@ -102,13 +102,13 @@ This experiment could also be used to test the impact of resolvers
 that use automated ways to update their root hint file as well as
 those who do not.
 
-## 5011X: RFC 5011 Roll-Back
+### 5011X: RFC 5011 Roll-Back
 
 RFC 5011 has a 30-day hold-down timer for newly introduced trust
 anchors. We should test what happens if this is actually needed, by
 simulating a bogus added KSK.
 
-## DOT-Y: Rename Servers to .YETI
+### DOT-Y: Rename Servers to .YETI
 
 In support of the ICANN RSSAC Caucus work on naming of root servers,
 Yeti can conduct an experiment where the Yeti root servers are put
@@ -116,7 +116,7 @@ into the Yeti root zone directly, rather than each with a separate
 name from a separate space. This may be considered a modification of
 the root zone, so may be out of scope. Discussion is needed.
 
-## PMTNC: Priming Truncation
+### PMTNC: Priming Truncation
 
 We can measure the worst-possible case for priming truncation by
 truncating all priming query answers. This requires either custom
@@ -127,7 +127,7 @@ This experiment can provide input into the expected outcome of work
 that expands the priming answers, such as increasing the ZSK key
 length.
 
-## BGZSK: ZSK 2048 Bits
+### BGZSK: ZSK 2048 Bits
 
 RSA 1024 is no longer recommended for cryptography. At some point the
 ZSK should be made longer. Common practice is to adopt 2048 bits keys.
@@ -136,7 +136,7 @@ Yeti should change to RSA 2048 for ZSK and observe the results. If the
 response size is greater than 1280 bytes it is likely that increased
 TCP will be observed from priming queries.
 
-## ECDSA: KSK ECDSA Roll
+### ECDSA: KSK ECDSA Roll
 
 One possible way to reduce packet sizes is to change to an ecliptic
 curve for signing. ECDSA is a standard way of doing that in DNSSEC.
@@ -151,7 +151,7 @@ https://labs.ripe.net/Members/anandb/dnssec-algorithm-roll-over
 This means that an algorithm roll also involves a KSK roll.
 Performing an algorithm roll at the root is an interesting challenge.
 
-## FSTRL: Frequent ZSK Roll
+### FSTRL: Frequent ZSK Roll
 
 We want to see the limits of how frequently a root ZSK can roll. This
 will be relatively safe after the Multi-ZSK setup is finished. This
@@ -159,7 +159,7 @@ has a lower bound based on TTL, but the TTL can be modified for such
 an experiment. A ZSK roll might be something that can be done daily or
 even at a faster rate.
 
-## TCPRT: TCP-only Root
+### TCPRT: TCP-only Root
 
 Similar to truncating priming queries, we can actually use the same
 technique to truncate _all_ answers from root servers. This should
