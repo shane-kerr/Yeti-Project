@@ -18,11 +18,12 @@ Timeline
 
 | Start Date | End Date   | ID    | Experiment
 |------------|------------|-------|--------
-| 2015-12-28 | 2016-01-18 | MZSK  | Multi-ZSK
-| 2016-01-25 | 2016-02-04 | KROLL | KSK Roll
+| 2016-02-01 | 2016-02-19 | MZSK  | Multi-ZSK
+| 2016-02-22 | 2016-04-08 | KROLL | KSK Roll
 |            |            | RENUM | Root Server Renumbering
 |            |            | IROLL | ICANN KSK Roll Simulation
 |            |            | 5011X | RFC 5011 Roll-Back
+|            |            | FAKER | Lots of Root Servers
 |            |            | DOT-Y | Rename Servers to .YETI
 |            |            | PMTNC | Priming Truncation
 |            |            | BGZSK | ZSK 2048 Bits
@@ -107,6 +108,58 @@ those who do not.
 RFC 5011 has a 30-day hold-down timer for newly introduced trust
 anchors. We should test what happens if this is actually needed, by
 simulating a bogus added KSK.
+
+### FAKER: Lots of Root Servers
+
+The current set of root server operators only results in a message of
+881 bytes from a priming query. This results in packets smaller than
+the 1280 byte IPv6 minimum MTU size, and also smaller than the normal
+1500 byte Ethernet frame size which would be exceeded by 1460 byte
+IPv6 DNS messages. Exceeding these limits would provide useful
+information about scaling the root.
+
+The basic idea is to increase the size of the reply to the priming
+query by adding "fake" root servers. We can use using multiple IP
+addresses on all or several of the Yeti root servers. Using different
+names would also expand the packets, and having those names from
+different domains would defeat DNS label compression and expand the
+packets further.
+
+Example just adding addresses:
+
+    bii.dns-lab.net. AAAA 240c:f:1:22::6
+                     AAAA 240c:f:1:22::66
+                     AAAA 240c:f:1:22::666
+                     AAAA 240c:f:1:22::6666
+
+Example using different names:
+
+    bii.dns-lab.net. AAAA 240c:f:1:22::6
+    cjj.dns-lab.net. AAAA 240c:f:1:22::66
+    dkk.dns-lab.net. AAAA 240c:f:1:22::666
+    ell.dns-lab.net. AAAA 240c:f:1:22::6666
+
+Example with name from different domains:
+
+    bii.dns-lab.net. AAAA 240c:f:1:22::6
+    bii.dns-fab.cn.  AAAA 240c:f:1:22::66
+    bii.dns-cab.net. AAAA 240c:f:1:22::666
+    bii.dns-dab.cn.  AAAA 240c:f:1:22::6666
+
+The experiment would likely consist of adding enough fake root servers
+to bring the packet to just under a size limit, then just over. This
+would probably be useful at:
+
+* 1280 bytes, the message size in IPv6 at the minimum MTU
+* 1420 bytes, the amount of space left for a DNS message in an IPv6
+  packet via an IPv6 tunnel on a 1500 byte Ethernet frame 
+* 1440 bytes, the amount of space left for a DNS message in an IPv6
+  packet via an IPv4 tunnel on a 1500 byte Ethernet frame 
+* 1460 bytes, the amount of space left for a DNS message in a normal
+  IPv6 packet in a 1500 byte Ethernet frame
+
+A couple days around each boundary should be enough to get good packet
+traces for analysis.
 
 ### DOT-Y: Rename Servers to .YETI
 
