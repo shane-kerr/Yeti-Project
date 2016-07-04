@@ -7,8 +7,8 @@ Description of the Yeti root KSK
 The Yeti root KSK uses the RSA/SHA-256 algorithm with a 2048 bit key,
 the same as the IANA root KSK. It is generated on software, and stored
 on systems secured with similar security to enterprise computing
-resources. (A more complete description with a DPS will be provided
-later.)
+resources; no HSM is used, and no documented procedures exist for
+access or updating the KSK.
 
 The Yeti Root KSK Rollover Procedure
 ====================================
@@ -51,7 +51,9 @@ of concern about the impact on resolvers if the packet size is too
 large.
 
 The Yeti rollover plan is more straightforward, and may indeed
-encounter some issues with packet size. This will be good to know.
+encounter some issues with packet size. However, the Yeti servers
+already have answers that result in fragmentation, so this is not
+considered a great concern.
 
 In a future KSK rollover, Yeti can use the ICANN KSK rollover plan,
 and document the differences between the more complicated ICANN
