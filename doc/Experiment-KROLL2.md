@@ -136,6 +136,7 @@ Timeline
 ========
 The experiment will start on 2017-02-20.
 
+```
 Slot 1: 2017-02-20 to 2017-03-01   change the RRSIG validity period
 Slot 2: 2017-03-02 to 2017-03-03   publish the new KSK
 Slot 3: 2017-03-04 to 2017-03-13   publish the new KSK
@@ -145,6 +146,7 @@ Slot 6: 2017-04-04 to 2017-04-13   sign with the new KSK
 Slot 7: 2017-04-14 to 2017-04-23   sign with the new KSK
 Slot 8: 2017-04-24 to 2017-05-03   revoke the old KSK
 Slot 8: 2017-05-04 to 2017-05-13   no longer publish the old KSK
+```
 
 
 Report Format
